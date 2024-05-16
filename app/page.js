@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Slider from "./_components/Slider";
 import GlobalApi from "./_utils/GlobalApi";
-import CategoryList from "./_components/categoryList";
+import CategoryList from "./_components/CategoryList";
 import ProductList from "./_components/ProductList";
 import Banner from "./_components/Banner";
 import Footer from "./_components/Footer";
