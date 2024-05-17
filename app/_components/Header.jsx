@@ -98,8 +98,8 @@ function Header() {
                             <Link key={index} href={'/products-category/' + category.attributes?.name}>
                                 <DropdownMenuItem className="cursor-pointer">
                                     <Image src={
-                                        process.env.NEXT_PUBLIC_BACKEND_BASE_URL +
-                                        category.attributes.icon.data[0].attributes.url}
+                                        category.attributes.icon.data[0].attributes.url
+                                        }
                                         unoptimized={true}
                                         alt='icon' width={25} height={25} className='mr-2' />
                                     <h2>{category.attributes.name}</h2>

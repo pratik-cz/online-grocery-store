@@ -13,19 +13,25 @@ const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const router = useRouter();
-  const [loader,setLoader]=useState();
-  const {updateCart,setUpdateCart,isLoggedIn,setIsLoggedIn}=useContext(UpdateCartContext)
-  useEffect(()=>{
-    const jwt=sessionStorage.getItem('jwt');
-    if(jwt){
-      router.push('/');
+  const [loader, setLoader] = useState();
+  const { updateCart, setUpdateCart, isLoggedIn, setIsLoggedIn } = useContext(UpdateCartContext)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const jwt = sessionStorage.getItem('jwt');
+      if (jwt) {
+        router.push('/');
+      }
     }
-  },[])
+
+  }, [])
   const onSignIn = () => {
     setLoader(true);
     GlobalApi.signinUser(email, password).then(resp => {
-      sessionStorage.setItem('user', JSON.stringify(resp.data.user));
-      sessionStorage.setItem('jwt', resp.data.jwt)
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('user', JSON.stringify(resp.data.user));
+        sessionStorage.setItem('jwt', resp.data.jwt)
+      }
+
       toast("Sign In successfully")
       setLoader(false);
       setUpdateCart(!updateCart)
@@ -50,11 +56,11 @@ const SignIn = () => {
             disabled={!(email && password)}
           >
             {
-              loader?<LoaderCircle className='animate-spin'/>:'Sign In'
+              loader ? <LoaderCircle className='animate-spin' /> : 'Sign In'
             }
-            
-            
-            </Button>
+
+
+          </Button>
           <p>
             <span className='mr-1'>Don't have an account </span>
             <Link href={'/create-account'} className="text-blue-500">Click here to Sign Up</Link>

@@ -8,8 +8,11 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const Checkout = () => {
-  const jwt = sessionStorage.getItem('jwt');
-  const user = JSON.parse(sessionStorage.getItem('user'))
+  if (typeof window !== 'undefined') {
+    const jwt = sessionStorage.getItem('jwt');
+    const user = JSON.parse(sessionStorage.getItem('user'))
+  }
+
   const [totalcartItem, setTotalCartItem] = useState(0)
   const [cartItemList, setCartItemList] = useState([])
   const [subtotal, setSubTotal] = useState(0);
@@ -20,7 +23,7 @@ const Checkout = () => {
   const [phone, setPhone] = useState();
   const [zip, setZip] = useState();
   const [address, setAddress] = useState();
-  const [totalAmount, setTotalAmount]=useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   const getCartItems = async () => {
     if (user) {
       const cartItemList_ = await GlobalApi.getCartItems(user?.id, jwt);
@@ -36,19 +39,19 @@ const Checkout = () => {
   }, [])
   useEffect(() => {
     getCartItems()
-    
+
   }, [])
   useEffect(() => {
     let total = 0;
     cartItemList.forEach(element => {
       total = total + element.amount;
     })
-    setTotalAmount((total+ (total * 9/100) + 15))
+    setTotalAmount((total + (total * 9 / 100) + 15))
     setSubTotal(total)
   }, [cartItemList])
   const calculateTotalAmount = () => {
-    const totAmount = subtotal+ (subtotal * 9/100) + 15
-    
+    const totAmount = subtotal + (subtotal * 9 / 100) + 15
+
     return totAmount;
   }
   return (
@@ -79,7 +82,7 @@ const Checkout = () => {
             <hr></hr>
             <h2 className=' font-bold flex justify-between'>Total :<span>₹ {calculateTotalAmount()} </span> </h2>
             {/* <Button>Payment <ArrowBigRight /> </Button> */}
-           { subtotal > 0?<PayPalButtons
+            {subtotal > 0 ? <PayPalButtons
               style={{ layout: 'horizontal' }}
               createOrder={(data, actions) => {
                 return actions.order.create(
@@ -87,7 +90,7 @@ const Checkout = () => {
                     purchase_units: [
                       {
                         amount: {
-                          value: subtotal+ (subtotal * 9/100) + 15,
+                          value: subtotal + (subtotal * 9 / 100) + 15,
                           currency_code: 'USD'
                         }
                       }
@@ -97,7 +100,7 @@ const Checkout = () => {
               }
 
               }
-            />:null}
+            /> : null}
           </div>
         </div>
       </div>
