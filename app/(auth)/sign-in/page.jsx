@@ -23,10 +23,10 @@ const SignIn = () => {
   const { updateCart, setUpdateCart, isLoggedIn, setIsLoggedIn } = useContext(UpdateCartContext)
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const jwt = sessionStorage.getItem('jwt');
-      if (jwt) {
-        router.push('/');
-      }
+      // const jwt = sessionStorage.getItem('jwt');
+      // if (jwt) {
+      //   router.push('/');
+      // }
     }
 
   }, [])
