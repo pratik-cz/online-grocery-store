@@ -15,11 +15,9 @@ const CreateAccount = () => {
   const router = useRouter();
   const [loader, setLoader] = useState();
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const jwt = sessionStorage.getItem('jwt');
-      if (jwt) {
-        router.push('/');
-      }
+    const jwt = sessionStorage.getItem('jwt');
+    if (jwt) {
+      router.push('/');
     }
   }, [])
   const onCreateAccount = () => {

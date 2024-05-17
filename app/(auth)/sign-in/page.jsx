@@ -1,4 +1,5 @@
 'use client'
+// import LoginButton from '@/app/_components/_custom_buttons/LoginButton'
 import { UpdateCartContext } from '@/app/_context/UpdateCartContext'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import { toast } from "sonner"
+import dynamic from 'next/dynamic'
+ 
+const LoginButton = dynamic(() => import('@/app/_components/_custom_buttons/LoginButton'), {
+  ssr: false,
+})
 const SignIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -52,15 +58,7 @@ const SignIn = () => {
         <div className='w-full flex flex-col gap-5 mt-7'>
           <Input placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} />
           <Input type='password' placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <Button onClick={() => onSignIn()}
-            disabled={!(email && password)}
-          >
-            {
-              loader ? <LoaderCircle className='animate-spin' /> : 'Sign In'
-            }
-
-
-          </Button>
+          <LoginButton email={email} password={password} loader={loader} onSignIn={onSignIn} />
           <p>
             <span className='mr-1'>Don't have an account </span>
             <Link href={'/create-account'} className="text-blue-500">Click here to Sign Up</Link>
