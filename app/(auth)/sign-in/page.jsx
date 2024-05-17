@@ -30,25 +30,7 @@ const SignIn = () => {
     }
 
   }, [])
-  const onSignIn = () => {
-    setLoader(true);
-    GlobalApi.signinUser(email, password).then(resp => {
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('user', JSON.stringify(resp.data.user));
-        sessionStorage.setItem('jwt', resp.data.jwt)
-      }
 
-      toast("Sign In successfully")
-      setLoader(false);
-      setUpdateCart(!updateCart)
-      setIsLoggedIn(true)
-      router.push('/');
-    }, (e) => {
-      console.log(e)
-      setLoader(false)
-      toast(e?.response?.data?.error?.message);
-    })
-  }
   return (
     <div className='flex items-baseline justify-center my-8'>
       <div className='flex flex-col items-center p-10 bg-slate-100 border border-gray-200'>
@@ -58,7 +40,10 @@ const SignIn = () => {
         <div className='w-full flex flex-col gap-5 mt-7'>
           <Input placeholder="name@example.com" onChange={(e) => setEmail(e.target.value)} />
           <Input type='password' placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-          <LoginButton email={email} password={password} loader={loader} onSignIn={onSignIn} />
+          <LoginButton email={email} password={password} loader={loader} setLoader={setLoader} setUpdateCart={setUpdateCart}
+          
+          updateCart={updateCart}  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}
+          />
           <p>
             <span className='mr-1'>Don't have an account </span>
             <Link href={'/create-account'} className="text-blue-500">Click here to Sign Up</Link>
